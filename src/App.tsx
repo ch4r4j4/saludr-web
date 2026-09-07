@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate} from 'react-router-dom';
 import { supabase } from './lib/supabase';
 import type { User } from '@supabase/supabase-js';
 import Login from './pages/Login';
@@ -10,7 +10,6 @@ import CampaignDetail from './pages/CampaignDetail';
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
