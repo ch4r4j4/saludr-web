@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 
+const DOWNLOAD_URL = 'https://drive.google.com/drive/folders/18i6YyWVdLscqkQrWkLyJMcQgIN9FROPD';
+
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -40,6 +42,15 @@ export default function Login() {
           <span style={styles.googleG}>G</span>
           {loading ? 'Conectando...' : 'Continuar con Google'}
         </button>
+
+        <div style={styles.divider} />
+
+        <a href={DOWNLOAD_URL} target="_blank" rel="noopener noreferrer" style={styles.downloadBtn}>
+          💻 Descargar app de escritorio
+        </a>
+        <p style={styles.downloadHint}>
+          Para inscribir pacientes en campo (Windows)
+        </p>
       </div>
     </div>
   );
@@ -71,7 +82,14 @@ const styles: Record<string, React.CSSProperties> = {
     gap: 10, width: '100%', padding: '14px 20px',
     background: '#fff', border: '1.5px solid #E5E7EB',
     borderRadius: 12, fontSize: 15, fontWeight: 700, color: '#374151',
-    cursor: 'pointer', transition: 'all 0.2s',
+    cursor: 'pointer',
   },
   googleG: { fontSize: 18, fontWeight: 800, color: '#EA4335' },
+  downloadBtn: {
+    display: 'block', width: '100%', padding: '13px 20px',
+    background: '#1E3A8A', color: '#fff', borderRadius: 12,
+    fontSize: 15, fontWeight: 700, textDecoration: 'none',
+    boxShadow: '0 4px 12px rgba(30,58,138,0.3)',
+  },
+  downloadHint: { fontSize: 12, color: '#9CA3AF', marginTop: 8 },
 };

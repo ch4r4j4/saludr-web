@@ -18,13 +18,10 @@ export default function CampaignDetail() {
   const [tab, setTab] = useState<Tab>('areas');
   const [loading, setLoading] = useState(true);
 
-  // Area form
   const [areaName, setAreaName] = useState('');
   const [areaColor, setAreaColor] = useState(COLORS[0]);
-  const [areaMinutes, setAreaMinutes] = useState('15');
   const [savingArea, setSavingArea] = useState(false);
 
-  // Doctor form
   const [doctorName, setDoctorName] = useState('');
   const [doctorAreaId, setDoctorAreaId] = useState('');
   const [savingDoctor, setSavingDoctor] = useState(false);
@@ -50,10 +47,10 @@ export default function CampaignDetail() {
       campaign_id: id,
       name: areaName.trim(),
       color: areaColor,
-      estimated_minutes_per_patient: parseInt(areaMinutes) || 15,
+      estimated_minutes_per_patient: 15,
       is_enabled: true,
     });
-    setAreaName(''); setAreaMinutes('15');
+    setAreaName('');
     await load();
     setSavingArea(false);
   }
@@ -92,7 +89,6 @@ export default function CampaignDetail() {
 
   return (
     <div style={styles.root}>
-      {/* Header */}
       <header style={styles.header}>
         <div style={styles.headerLeft}>
           <button style={styles.back} onClick={() => navigate('/dashboard')}>← Dashboard</button>
@@ -113,7 +109,6 @@ export default function CampaignDetail() {
       </header>
 
       <main style={styles.main}>
-        {/* Tabs */}
         <div style={styles.tabs}>
           {(['areas', 'doctors', 'code'] as Tab[]).map(t => (
             <button key={t} style={{ ...styles.tab, ...(tab === t ? styles.tabActive : {}) }}
@@ -126,7 +121,6 @@ export default function CampaignDetail() {
         {/* ── ÁREAS ── */}
         {tab === 'areas' && (
           <div style={styles.content}>
-            {/* Presets */}
             <p style={styles.sectionLabel}>Áreas frecuentes</p>
             <div style={styles.presets}>
               {PRESETS.map(p => (
@@ -138,19 +132,16 @@ export default function CampaignDetail() {
               ))}
             </div>
 
-            {/* Form */}
             <div style={styles.formRow}>
               <input style={{ ...styles.input, flex: 2 }} value={areaName}
                 onChange={e => setAreaName(e.target.value)}
                 placeholder="Nombre del área..." />
-              {/*<input style={{ ...styles.input, width: 80 }} value={areaMinutes}
-                onChange={e => setAreaMinutes(e.target.value)}
-                type="number" placeholder="Min" min={1} />*/}
               <div style={styles.colorPicker}>
                 {COLORS.map(c => (
                   <button key={c} onClick={() => setAreaColor(c)}
                     style={{
-                      width: 28, height: 28, borderRadius: '50%', background: c, border: 'none', cursor: 'pointer',
+                      width: 28, height: 28, borderRadius: '50%', background: c,
+                      border: 'none', cursor: 'pointer',
                       outline: areaColor === c ? `3px solid ${c}` : 'none',
                       outlineOffset: 2,
                     }} />
@@ -162,7 +153,6 @@ export default function CampaignDetail() {
               </button>
             </div>
 
-            {/* Lista */}
             {areas.length === 0
               ? <p style={styles.empty}>No hay áreas configuradas</p>
               : areas.map(area => (
@@ -171,7 +161,6 @@ export default function CampaignDetail() {
                   <div style={{ flex: 1 }}>
                     <span style={styles.itemName}>{area.name}</span>
                     <span style={styles.itemSub}>
-                      ~{area.estimated_minutes_per_patient} min/pac ·{' '}
                       {doctors.filter(d => d.area_id === area.id).length} médico(s)
                     </span>
                   </div>
@@ -245,7 +234,6 @@ export default function CampaignDetail() {
                 Comparte estos datos con tu equipo para que puedan acceder
                 a la aplicación de escritorio e inscribir pacientes.
               </p>
-
               <div style={styles.codeBlock}>
                 <div style={styles.codeItem}>
                   <span style={styles.codeItemLabel}>Código de campaña</span>
@@ -257,7 +245,6 @@ export default function CampaignDetail() {
                   <span style={styles.codeItemValue}>{campaign.access_password}</span>
                 </div>
               </div>
-
               <div style={styles.codeSummary}>
                 <p style={styles.codeSummaryTitle}>Resumen de la campaña</p>
                 <p style={styles.codeSummaryItem}>📋 {campaign.name}</p>
@@ -268,7 +255,6 @@ export default function CampaignDetail() {
                 </p>
                 <p style={styles.codeSummaryItem}>🏥 {areas.length} área(s) · {doctors.length} médico(s)</p>
               </div>
-
               <button style={styles.copyBtn} onClick={() => {
                 const text = `Campaña: ${campaign.name}\nCódigo: ${campaign.access_code}\nContraseña: ${campaign.access_password}`;
                 navigator.clipboard.writeText(text);
@@ -339,8 +325,6 @@ const styles: Record<string, React.CSSProperties> = {
   areaGroup: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 },
   areaGroupName: { fontSize: 13, fontWeight: 700, color: '#374151' },
   empty: { color: '#9CA3AF', textAlign: 'center', padding: '40px 0', fontSize: 14 },
-
-  // Código de acceso
   codeCard: {
     background: '#fff', borderRadius: 16, padding: 32,
     boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
